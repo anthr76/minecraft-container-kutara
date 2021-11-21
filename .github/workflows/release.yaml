@@ -32,8 +32,6 @@ jobs:
          image: ${{ matrix.image }}
          archs: amd64, arm64
          tags: ${{ steps.prep.outputs.version }} latest
-         oci: true
-         layers: true
          containerfiles: ./${{ matrix.containerfile }}
         
       - name: Push
