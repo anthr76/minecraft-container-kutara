@@ -22,7 +22,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          echo ::set-output name=version::${date +"%Y%m%d%H%M"}
+          echo ::set-output name=version::$(date +"%Y%m%d%H%M")
 
       - name: Build
         id: build
