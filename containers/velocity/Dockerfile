@@ -1,4 +1,4 @@
-from registry.fedoraproject.org/fedora-minimal:35
+from registry.fedoraproject.org/fedora-minimal:36
 
 ENV \
   VELOCITY_VERSION=3.0.1
