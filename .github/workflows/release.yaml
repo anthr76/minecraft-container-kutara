@@ -23,13 +23,15 @@ jobs:
         id: prep
         run: |
           echo ::set-output name=version::$(date +"%Y%m%d%H%M")
+          sudo podman run --rm --privileged docker.io/tonistiigi/binfmt --install all
 
       - name: Build
         id: build
         uses: redhat-actions/buildah-build@v2.8
         with:
          image: ${{ matrix.image }}
-         tags: v${{ steps.prep.outputs.version }} latest
+         archs: amd64, arm64
+         tags: ${{ steps.prep.outputs.version }} latest
          oci: true
          layers: true
          containerfiles: ./${{ matrix.containerfile }}
