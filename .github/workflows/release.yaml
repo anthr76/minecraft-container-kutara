@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
        include:
-         - containerfile: Dockerfile
+         - containerfile: app/velocity/Dockerfile
            image: "velocity"
     if: github.event_name != 'pull_request'
     steps:
