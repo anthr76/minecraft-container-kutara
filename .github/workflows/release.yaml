@@ -24,7 +24,7 @@ jobs:
         run: |
           echo ::set-output name=version::$(date +"%Y%m%d%H%M")
           sudo podman run --rm --privileged docker.io/tonistiigi/binfmt --install all
-          bash minecraft-container-kutara/.github/install_latest_buildah.sh
+          bash .github/install_latest_buildah.sh
 
       - name: Build
         id: build
