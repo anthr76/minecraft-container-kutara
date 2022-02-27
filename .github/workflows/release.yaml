@@ -1,10 +1,9 @@
+---
 name: container-release
-
 on:
   push:
-    branches: 
+    branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -12,31 +11,34 @@ jobs:
       fail-fast: false
       matrix:
        include:
-         - containerfile: apps/velocity/Dockerfile
-           image: "velocity"
+         - component: "base-image"
+           path: "./base/fedora/"
+         - component: "velocity"
+           path: "./apps/velocity/"
     if: github.event_name != 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Prepare
         id: prep
         run: |
-          echo ::set-output name=version::$(date +"%Y%m%d%H%M")
-          sudo podman run --rm --privileged docker.io/tonistiigi/binfmt --install all
-          bash .github/install_latest_buildah.sh
-
+          echo ::set-output name=version::${GITHUB_REF##*/}
+      - name: Install qemu dependency
+        id: qemu
+        run: |
+          sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Build
         id: build
-        uses: redhat-actions/buildah-build@v2.8
+        uses: redhat-actions/buildah-build@v2.9
         with:
-         image: ${{ matrix.image }}
+         image: minecraft/${{ matrix.component }}
+         tags: v${{ steps.prep.outputs.version }} latest
+         oci: true
+         layers: true
+         containerfiles: ${{ matrix.path }}/Dockerfile
          archs: amd64, arm64
-         tags: ${{ steps.prep.outputs.version }} latest
-         containerfiles: ./${{ matrix.containerfile }}
-        
       - name: Push
-        uses: redhat-actions/push-to-registry@v2.3.2
+        uses: redhat-actions/push-to-registry@v2.5.1
         with:
          image: ${{ steps.build.outputs.image }}
          tags:  ${{ steps.build.outputs.tags }}

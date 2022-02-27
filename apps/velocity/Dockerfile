@@ -1,20 +1,26 @@
-from registry.fedoraproject.org/fedora-minimal:35
+FROM ghcr.io/anthr76/minecraft/base-image:0.0.0
 
 ENV \
-  VELOCITY_VERSION=3.0.1
-  LUCKPERMS_VERSION=5.3.77
+  VELOCITY_VERSION=3.1.1 \
+  LUCKPERMS_VERSION=5.4.6 \
+  SKINSRESTORER_VERSION=14.1.10
 
-RUN microdnf install -y \
-  catatonit \
-  java-latest-openjdk-headless \
-  && \
-  mkdir /server \
-  && curl -fsSL -o /server/velocity.jar \
-    "https://versions.velocitypowered.com/download/${VELOCITY_VERSION}.jar"
-  && curl -fsSL -o /server/plugins/luckperms.jar \
-    "https://ci.lucko.me/job/LuckPerms/1376/artifact/bukkit/loader/build/libs/LuckPerms-Bukkit-${LUCKPERMS_VERSION}.jar"
+RUN \
+    mkdir -p /app/plugins/
+
+RUN curl -fsSL -o /app/velocity.jar \
+        "https://papermc.io/api/v2/projects/velocity/versions/3.1.2-SNAPSHOT/builds/114/downloads/velocity-3.1.2-SNAPSHOT-114.jar" 
+RUN curl -fsSL -o /app/plugins/luckperms.jar \
+        "https://ci.lucko.me/view/LuckPerms/job/LuckPerms/lastSuccessfulBuild/artifact/velocity/build/libs/LuckPerms-Velocity-$LUCKPERMS_VERSION.jar"
+RUN curl -fsSL -o /app/plugins/SkinsRestorer.jar \
+        "https://github.com/SkinsRestorer/SkinsRestorerX/releases/download/$SKINSRESTORER_VERSION/SkinsRestorer.jar"
+
+RUN chown -R kutara /app
 
 EXPOSE 25565 25575
 
-ENTRYPOINT [ "/usr/libexec/catatonit/catatonit", "--" ]
-CMD ["java","-jar", "/app/velocity.jar"]
+VOLUME [ "/app" ]
+WORKDIR /app
+USER kutara
+
+CMD ["/app/velocity.jar"]
