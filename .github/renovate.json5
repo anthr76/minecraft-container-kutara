@@ -8,10 +8,13 @@
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
+  "docker": {
+    "fileMatch": ["Containerfile"]
+  },
   "regexManagers": [
     {
       "fileMatch": [
-        "Dockerfile",
+        "Containerfile",
         "hack/.+\\.sh$"
       ],
       "matchStrings": [
@@ -21,6 +24,7 @@
     }
   ],
   "packageRules": [
+    // setup datasources
     {
       "enabled": true,
       "matchDatasources": ["docker", "github-releases", "pypi", "npm", "repology"],
@@ -31,6 +35,7 @@
       "semanticCommitScope": "deps",
       "separateMinorPatch": true
     },
+    // add labels according to package and update types
     {
       "matchDatasources": ["docker", "github-releases", "pypi", "npm", "repology"],
       "matchUpdateTypes": ["major"],
@@ -48,6 +53,14 @@
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
       "labels": ["dep/patch"]
+    },
+    // pin package versions
+    {
+      "matchDatasources": ["docker"],
+      "allowedVersions": "<36",
+      "matchPackageNames": [
+        "registry.fedoraproject.org/fedora"
+      ]
     },
   ]
 }
