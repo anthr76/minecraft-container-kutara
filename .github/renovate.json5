@@ -59,7 +59,7 @@
       "matchDatasources": ["docker"],
       "allowedVersions": "<36",
       "matchPackageNames": [
-        "registry.fedoraproject.org/fedora"
+        "registry.fedoraproject.org/fedora-minimal"
       ]
     },
   ]
