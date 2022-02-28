@@ -1,4 +1,4 @@
-FROM ghcr.io/anthr76/minecraft/base-image:0.0.0
+FROM ghcr.io/anthr76/minecraft/base-image:latest
 
 ENV \
   VELOCITY_VERSION=3.1.1 \
