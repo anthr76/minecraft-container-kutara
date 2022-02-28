@@ -1,9 +1,9 @@
 ---
 name: container-release
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - created
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -32,7 +32,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2.9
         with:
          image: minecraft/${{ matrix.component }}
-         tags: v${{ steps.prep.outputs.version }} latest
+         tags: latest ${{ steps.prep.outputs.version }}
          oci: true
          layers: true
          containerfiles: ${{ matrix.path }}/Dockerfile
