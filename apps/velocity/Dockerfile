@@ -16,8 +16,11 @@ RUN curl -fsSL -o /app/plugins/SkinsRestorer.jar \
         "https://github.com/SkinsRestorer/SkinsRestorerX/releases/download/$SKINSRESTORER_VERSION/SkinsRestorer.jar"
 
 RUN \
-    nohup bash -c "java -jar /app/velocity.jar &" \
-    && chown -R kutara /app
+    bash -c "cd /app && java -jar ./velocity.jar </dev/null &>/dev/null &" \
+    && sleep 30s
+
+RUN \
+    chown -R kutara:kutara /app
 
 EXPOSE 25565 25575
 
