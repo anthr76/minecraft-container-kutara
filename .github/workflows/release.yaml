@@ -33,8 +33,6 @@ jobs:
         with:
          image: minecraft/${{ matrix.component }}
          tags: latest ${{ steps.prep.outputs.version }}
-         oci: true
-         layers: true
          containerfiles: ${{ matrix.path }}/Dockerfile
          archs: amd64, arm64
       - name: Push
