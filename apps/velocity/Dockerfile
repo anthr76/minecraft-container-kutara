@@ -15,7 +15,9 @@ RUN curl -fsSL -o /app/plugins/luckperms.jar \
 RUN curl -fsSL -o /app/plugins/SkinsRestorer.jar \
         "https://github.com/SkinsRestorer/SkinsRestorerX/releases/download/$SKINSRESTORER_VERSION/SkinsRestorer.jar"
 
-RUN chown -R kutara /app
+RUN \
+    nohup bash -c "java -jar /app/velocity.jar &" \
+    && chown -R kutara /app
 
 EXPOSE 25565 25575
 
