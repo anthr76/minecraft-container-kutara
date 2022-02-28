@@ -14,8 +14,8 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "Containerfile",
-        "hack/.+\\.sh$"
+        "apps/.+\\Dockerfile$",
+        "base/.+\\Dockerfile$"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\n.*?_VERSION=(?<currentValue>.*)"
