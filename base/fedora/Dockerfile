@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:35
+FROM registry.fedoraproject.org/fedora-minimal:36
 
 RUN \
   microdnf install -y --setopt=install_weak_deps=0 --setopt=keepcache=0 \
